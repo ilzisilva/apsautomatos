@@ -27,6 +27,9 @@ public class ApsAutomatos2 {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
+        
+        String arquivo = args[0];
+        
         //declaração Alfabeto de entrada(retirado do arquivo)
         List<String> alfabetoEntrada = new LinkedList<>();
         
@@ -60,7 +63,7 @@ public class ApsAutomatos2 {
         //List<String>[4] = Simbolos a empilhar(topo a esquerda e base a direita)
         
         //palavra inicial(a palavra que foi digitada)
-        StringBuilder palavra = new StringBuilder("");
+        StringBuilder palavra = new StringBuilder(args[1]);
         
         //Pilha inicial do automato
         //Stack<Character> pilhaAutomato = new Stack<>();
@@ -80,7 +83,7 @@ public class ApsAutomatos2 {
         //verifica se o automato foi aceito
         boolean eAceito = false;
         
-        try (BufferedReader data = new BufferedReader(new InputStreamReader(new FileInputStream("/home/tuchinski/Documentos/Curso JAVA/APSAutomatos/teste.txt")))) {
+        try (BufferedReader data = new BufferedReader(new InputStreamReader(new FileInputStream(arquivo)))) {
                //enquanto houver linhas disponiveis faça
             while (((line = data.readLine()) != null)) {
                 /*esse switch serve para salvar cada dado de cada linha na sua respectiva variável
@@ -170,7 +173,7 @@ public class ApsAutomatos2 {
         while(!listaAutomatos.isEmpty()){
             Automato atual = listaAutomatos.get(elementoLista);
             if(atual.getPalavraNaoProcessada().length() == 0 | atual.getPalavraNaoProcessada().toString().equals(epsilon)){
-                if(atual.pilha.length() == 0){
+                if(atual.pilha.length() == 0 | atual.pilha.toString().equals(epsilon)){
                     System.out.println("Deu certo!!");
                     eAceito = true;
                     break;
@@ -185,31 +188,11 @@ public class ApsAutomatos2 {
                 if(atual.getPalavraNaoProcessada().length() == 0){
                     atual.setPalavraNaoProcessada(new StringBuilder(epsilon));
                 }
-                //verifica se os estados batem
-    /*1*/       if(ls.get(0).equals(atual.getEstAtual())){
-                    //verifica se a o simbolo(palavra) da transição é o msm do automato
-    /*2*/           if(atual.getPalavraNaoProcessada().substring(0, 1).equals(ls.get(1)) & (atual.getPalavraNaoProcessada().substring(0,1).equals(epsilon) == false)){
-    /*3*/               if(atual.pilha.substring(0, 1).equals(ls.get(2))){
-                            //muda o estado atual
-                            //atual.setEstAtual(ls.get(3));
-                            atual.setAvancou(true);
-                            //cria uma nova palavra e modifica no Automato atual
-                            StringBuilder novaPalavra = new StringBuilder(atual.getPalavraNaoProcessada());
-                            novaPalavra.deleteCharAt(0);
-                            //atual.setPalavraNaoProcessada(new StringBuilder(novaPalavra));
-                            //desempilha
-                            StringBuilder novaPilha = new StringBuilder(atual.pilha);
-                            novaPilha.deleteCharAt(0);
-                            //empilha se o simbolo a empilhar for diferente de epsilon
-                            if(!ls.get(4).equals(epsilon)){
-                                novaPilha.insert(0, new StringBuilder(ls.get(4)));
-                            }
-                            Automato novo = new Automato(novaPalavra, ls.get(3), novaPilha);
-                            listaAutomatos.add(novo);
-                        }
-    /*3*/               if(ls.get(2).equals(epsilon)){
-                            //atual.setEstAtual(ls.get(3));
-                            //atual.setAvancou(true);
+                
+                if(atual.pilha.length() == 0){
+                    if(ls.get(0).equals(atual.getEstAtual())){
+                        if(atual.getPalavraNaoProcessada().substring(0, 1).equals(ls.get(1)) & (atual.getPalavraNaoProcessada().substring(0,1).equals(epsilon) == false)){
+                            if(ls.get(2).equals(epsilon)){
                             StringBuilder novaPalavra = new StringBuilder(atual.getPalavraNaoProcessada());
                             novaPalavra.deleteCharAt(0);
                             StringBuilder novaPilha = new StringBuilder(atual.pilha);
@@ -218,40 +201,88 @@ public class ApsAutomatos2 {
                             }
                             Automato novo = new Automato(novaPalavra, ls.get(3), novaPilha);
                             listaAutomatos.add(novo);
-                            //atual.setPalavraNaoProcessada(novaPalavra);
+                            }
                         }
-                    }
-    /*2*/           if(ls.get(1).equals(epsilon)){
-    /*3*/               if(ls.get(2).equals(atual.getTopoPilha())){
+                        if(ls.get(1).equals(epsilon)){
+                            if(ls.get(2).equals(epsilon)){
                             StringBuilder novaPilha = new StringBuilder(atual.pilha);
-                            novaPilha.deleteCharAt(0);
-                            atual.setAvancou(true);
                             if(!ls.get(4).equals(epsilon)){
                                 novaPilha.insert(0, new StringBuilder(ls.get(4)));
                             }
                             Automato novo = new Automato(atual.getPalavraNaoProcessada(), ls.get(3), novaPilha);
                             listaAutomatos.add(novo);
-                        }
-    /*3*/               if(ls.get(2).equals(epsilon)){
-                            StringBuilder novaPilha = new StringBuilder(atual.pilha);
-                            atual.setAvancou(true);
-                            if(!ls.get(4).equals(epsilon)){
-                                novaPilha.insert(0, new StringBuilder(ls.get(4)));
                             }
-                            Automato novo = new Automato(atual.getPalavraNaoProcessada(), ls.get(3), novaPilha);
-                            listaAutomatos.add(novo);
                         }
                     }
-    
+                }
+                else{                
+                    //verifica se os estados batem
+        /*1*/       if(ls.get(0).equals(atual.getEstAtual())){
+                        //verifica se a o simbolo(palavra) da transição é o msm do automato
+        /*2*/           if(atual.getPalavraNaoProcessada().substring(0, 1).equals(ls.get(1)) & (atual.getPalavraNaoProcessada().substring(0,1).equals(epsilon) == false)){
+        /*3*/               if(atual.pilha.substring(0, 1).equals(ls.get(2))){
+                                //muda o estado atual
+                                //atual.setEstAtual(ls.get(3));
+
+                                //cria uma nova palavra e modifica no Automato atual
+                                StringBuilder novaPalavra = new StringBuilder(atual.getPalavraNaoProcessada());
+                                novaPalavra.deleteCharAt(0);
+                                //atual.setPalavraNaoProcessada(new StringBuilder(novaPalavra));
+                                //desempilha
+                                StringBuilder novaPilha = new StringBuilder(atual.pilha);
+                                novaPilha.deleteCharAt(0);
+                                //empilha se o simbolo a empilhar for diferente de epsilon
+                                if(!ls.get(4).equals(epsilon)){
+                                    novaPilha.insert(0, new StringBuilder(ls.get(4)));
+                                }
+                                Automato novo = new Automato(novaPalavra, ls.get(3), novaPilha);
+                                listaAutomatos.add(novo);
+                            }
+        /*3*/               if(ls.get(2).equals(epsilon)){
+                                //atual.setEstAtual(ls.get(3));
+                                //atual.setAvancou(true);
+                                StringBuilder novaPalavra = new StringBuilder(atual.getPalavraNaoProcessada());
+                                novaPalavra.deleteCharAt(0);
+                                StringBuilder novaPilha = new StringBuilder(atual.pilha);
+                                if(!ls.get(4).equals(epsilon)){
+                                    novaPilha.insert(0, new StringBuilder(ls.get(4)));
+                                }
+                                Automato novo = new Automato(novaPalavra, ls.get(3), novaPilha);
+                                listaAutomatos.add(novo);
+                                //atual.setPalavraNaoProcessada(novaPalavra);
+                            }
+                        }
+        /*2*/           if(ls.get(1).equals(epsilon)){
+        /*3*/               if(ls.get(2).charAt(0) == atual.pilha.charAt(0)){
+                                StringBuilder novaPilha = new StringBuilder(atual.pilha);
+                                novaPilha.deleteCharAt(0);
+                                if(!ls.get(4).equals(epsilon)){
+                                    novaPilha.insert(0, new StringBuilder(ls.get(4)));
+                                }
+                                Automato novo = new Automato(atual.getPalavraNaoProcessada(), ls.get(3), novaPilha);
+                                listaAutomatos.add(novo);
+                            }
+        /*3*/               if(ls.get(2).equals(epsilon)){
+                                StringBuilder novaPilha = new StringBuilder(atual.pilha);
+                                if(!ls.get(4).equals(epsilon)){
+                                    novaPilha.insert(0, new StringBuilder(ls.get(4)));
+                                }
+                                Automato novo = new Automato(atual.getPalavraNaoProcessada(), ls.get(3), novaPilha);
+                                listaAutomatos.add(novo);
+                            }
+                        }
+                    }
                 }
             }
             
-            if(atual.getAvancou() == false){
+            /*if(atual.getAvancou() == false){
                 Automato remove = listaAutomatos.remove(0);
                 System.out.println("Automato Removido: ");
                 remove.printAutomato();
                 System.out.println("");
-            }
+            }*/
+            
+            listaAutomatos.remove(atual);
                         
             if(!listaAutomatos.isEmpty()){
                 elementoLista = (elementoLista+1) % listaAutomatos.size();

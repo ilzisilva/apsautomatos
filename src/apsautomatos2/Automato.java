@@ -16,8 +16,6 @@ public class Automato {
     private StringBuilder palavraNaoProcessada;
     public StringBuilder pilha = new StringBuilder();
     private String estAtual;
-    boolean avancou;
-    boolean eAceito;
 
     /**
      * 
@@ -27,8 +25,6 @@ public class Automato {
      */
     
     public Automato(StringBuilder palavraNaoProcessada, String estAtual,StringBuilder pilha) {
-        this.avancou = false;
-        this.eAceito = false;
         this.palavraNaoProcessada = palavraNaoProcessada;
         this.estAtual = estAtual;
         this.pilha = pilha;
@@ -41,14 +37,6 @@ public class Automato {
 
     public void setPalavraNaoProcessada(StringBuilder palavraNaoProcessada) {
         this.palavraNaoProcessada = palavraNaoProcessada;
-    }
-
-    public StringBuilder getPilha() {
-        return pilha;
-    }
-
-    public void setPilha(StringBuilder pilha) {
-        this.pilha = pilha;
     }
 
     public String getEstAtual() {
@@ -67,29 +55,6 @@ public class Automato {
         System.out.println("Pilha: " + this.pilha);
     }
 
-    /**
-     *
-     * @return Retorna 1 se o automato avançou nas transiçoes e 0 se o automato não consegue realizar mais nenhuma transição
-     */
-    public boolean getAvancou() {
-        return avancou;
-    }
-
-    /**
-     *
-     * @param avancou true ou false
-     */
-    public void setAvancou(boolean avancou) {
-        this.avancou = avancou;
-    }
-    
-    public boolean getEaceito(){
-        return this.eAceito;
-    }
-    
-    public void setEaceito(boolean eAceito){
-        this.eAceito = eAceito;
-    }
     
     public String getSimboloPalavra(){
         return this.palavraNaoProcessada.toString();
