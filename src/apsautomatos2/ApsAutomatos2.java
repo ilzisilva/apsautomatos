@@ -20,14 +20,22 @@ import java.util.List;
  *
  * @author tuchinski
  */
-public class ApsAutomatos2 {
 
+
+public class ApsAutomatos2 {
+    
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
+        int numComputacoes = 0;
         
+        if(args.length <2){
+            System.out.println("Quantidade de argumentos invalida");
+            System.out.println("Para compilar digite: nomeDoPrograma .jar nomeDoArquivo.txt palavraParaSerProcessada");
+            System.exit(0);
+        }
         String arquivo = args[0];
         
         //declaração Alfabeto de entrada(retirado do arquivo)
@@ -174,11 +182,12 @@ public class ApsAutomatos2 {
             Automato atual = listaAutomatos.get(elementoLista);
             if(atual.getPalavraNaoProcessada().length() == 0 | atual.getPalavraNaoProcessada().toString().equals(epsilon)){
                 if(atual.pilha.length() == 0 | atual.pilha.toString().equals(epsilon)){
-                    System.out.println("Deu certo!!");
+                    System.out.println("1");
                     eAceito = true;
+                    System.out.println("quantidade de computações : " + numComputacoes);
                     break;
                 }else if(conjuntoEstadosAceitacao.contains(atual.getEstAtual())){
-                    System.out.println("deu certo!!!");
+                    System.out.println("1");
                     eAceito = true;
                     break;
                 }
@@ -273,6 +282,7 @@ public class ApsAutomatos2 {
                         }
                     }
                 }
+                numComputacoes++;
             }
             
             /*if(atual.getAvancou() == false){
@@ -289,10 +299,8 @@ public class ApsAutomatos2 {
             }
         }
         
-        if(eAceito){
-            System.out.println("deu certo caraio");
-        }else{
-            System.out.println("nao deu certo caraio");
+        if(!eAceito){
+            System.out.println("0");
         }
         
     }
