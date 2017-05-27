@@ -31,7 +31,7 @@ public class ApsAutomatos2 {
     public static void main(String[] args) throws IOException {
         int numComputacoes = 0;
         
-        if(args.length <2){
+        if(args.length < 2){
             System.out.println("Quantidade de argumentos invalida");
             System.out.println("Para compilar digite: nomeDoPrograma .jar nomeDoArquivo.txt palavraParaSerProcessada");
             System.exit(0);
