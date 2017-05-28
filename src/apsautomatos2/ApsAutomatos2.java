@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-//import java.util.Stack;
 
 /**
  *
- * @author tuchinski
+ * @author Leonardo Mendonça Tuchinski
+ * @since 2017
  */
 
 
@@ -134,7 +134,6 @@ public class ApsAutomatos2 {
                         break;
                     case 3:
                         simboloInicialPilha = line;
-                        //System.out.println(simboloInicialPilha);
                         break;
                     case 4:
                         vetor = line.split(" ");
@@ -150,8 +149,6 @@ public class ApsAutomatos2 {
                     default:
                         vetor = line.split(" ");
                         transicoes2.add((Arrays.asList(vetor)));
-                        //Transicao t = new Transicao(vetor[0], vetor[1], vetor[2], vetor[3], vetor[4]);
-                        //transicoes.add(t);
                         break;
                 }
                 cont++;
@@ -163,16 +160,7 @@ public class ApsAutomatos2 {
             System.out.println("O arquivo não foi encontrado!");
             System.exit(1);
         }
-        
-//        for(int i=0;i<palavra.length();i++){
-//            Character c = palavra.charAt(i);
-//            String ch = c.toString();
-//            if(!alfabetoEntrada.contains(ch)){
-//                System.out.println("A palavra contem simbolo(s) que não faz parte do alfabeto");
-//                System.exit(1);
-//            }
-//        }
-        
+                
         Automato a = new Automato(palavra, estInicial, new StringBuilder(simboloInicialPilha));
         listaAutomatos.add(a);
         
@@ -232,7 +220,6 @@ public class ApsAutomatos2 {
         /*3*/               if(atual.pilha.substring(0, 1).equals(ls.get(2))){
                                 //muda o estado atual
                                 //atual.setEstAtual(ls.get(3));
-
                                 //cria uma nova palavra e modifica no Automato atual
                                 StringBuilder novaPalavra = new StringBuilder(atual.getPalavraNaoProcessada());
                                 novaPalavra.deleteCharAt(0);
@@ -284,14 +271,7 @@ public class ApsAutomatos2 {
                 }
                 numComputacoes++;
             }
-            
-            /*if(atual.getAvancou() == false){
-                Automato remove = listaAutomatos.remove(0);
-                System.out.println("Automato Removido: ");
-                remove.printAutomato();
-                System.out.println("");
-            }*/
-            
+                        
             listaAutomatos.remove(atual);
                         
             if(!listaAutomatos.isEmpty()){
@@ -306,25 +286,3 @@ public class ApsAutomatos2 {
     }
     
 }
-
-        //impressão das variaveis obtidas do arquivo
-//        System.out.print("Alfabeto de entrada: " + alfabetoEntrada);        
-//        System.out.print("\nAlfabeto da Pilha: " + alfabetoPilha);        
-//        System.out.println("\nSimbolo Epsilon: " + epsilon);
-//        System.out.println("Simbolo inicial pilha: " + simboloInicialPilha);
-//        System.out.print("Conjunto de estados: " + conjuntoEstados);        
-//        System.out.println("\nEstado inicial: " + estInicial);        
-//        System.out.println("Conjunto de estados de aceitação: " + conjuntoEstadosAceitacao + "\n\n");
-//        int num = 0;
-//        //for(Transicao t : transicoes){
-//        for(List<String> t : transicoes2){
-//            System.out.println("Transicao " + num + ": ");
-//            
-//            System.out.println("Estado Atual: " + t.get(0));
-//            System.out.println("Simbolo atual da palavra: " + t.get(1));
-//            System.out.println("Simbolo atual da pilha: " + t.get(2));
-//            System.out.println("Novo Estado: " + t.get(3));
-//            System.out.println("Simbolo a empilhar: " + t.get(4));
-//            System.out.println("\n\n\n");
-//            num++;
-//        }
