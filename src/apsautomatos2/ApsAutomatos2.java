@@ -28,15 +28,31 @@ public class ApsAutomatos2 {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
+    boolean verificaAceitacao(Automato a, String epsilon, List<String> conjuntoEstadosAceitacao){
+        if(a.getPalavraNaoProcessada().length() == 0 | a.getPalavraNaoProcessada().toString().equals(epsilon)){
+                if(a.pilha.length() == 0 | a.pilha.toString().equals(epsilon)){
+                    return true;
+                }else if(conjuntoEstadosAceitacao.contains(a.getEstAtual())){
+                    return true;
+                }
+        }
+        return false;
+    }
+    
     public static void main(String[] args) throws IOException {
         int numComputacoes = 0;
         
-        if(args.length < 2){
-            System.out.println("Quantidade de argumentos invalida");
-            System.out.println("Para compilar digite: nomeDoPrograma .jar nomeDoArquivo.txt palavraParaSerProcessada");
-            System.exit(0);
-        }
-        String arquivo = args[0];
+        ApsAutomatos2 classePrincipal = new ApsAutomatos2();
+                
+        
+//        if(args.length < 2){
+//            System.out.println("Quantidade de argumentos invalida");
+//            System.out.println("Para executar digite: java -jar apsAutomatos2.jar nomeDoArquivo.txt palavraParaSerProcessada");
+//            System.exit(0);
+//        }
+//        String arquivo = args[0];
+        String arquivo = "/home/tuchinski/Documentos/LFA/2_aula_pnda_v2.txt";
+        
         
         //declaração Alfabeto de entrada(retirado do arquivo)
         List<String> alfabetoEntrada = new LinkedList<>();
@@ -71,7 +87,8 @@ public class ApsAutomatos2 {
         //List<String>[4] = Simbolos a empilhar(topo a esquerda e base a direita)
         
         //palavra inicial(a palavra que foi digitada)
-        StringBuilder palavra = new StringBuilder(args[1]);
+        StringBuilder palavra = new StringBuilder("a");
+//        StringBuilder palavra = new StringBuilder(args[1]);
         
         //Pilha inicial do automato
         //Stack<Character> pilhaAutomato = new Stack<>();
@@ -111,7 +128,7 @@ public class ApsAutomatos2 {
                         vetor = line.split(" ");
                         int i = 0;
                         for(String s: vetor){
-                            alfabetoEntrada.add(line);
+                            alfabetoEntrada.add(s);
                             i++;
                         }
                         //adiciona todas as posiçoes do vetor na lista, utilizando a 
@@ -125,7 +142,7 @@ public class ApsAutomatos2 {
                         int j = 0;
                         for(String s : vetor){
                             if(!s.isEmpty()){
-                                alfabetoPilha.add(line);
+                                alfabetoPilha.add(s);
                             }
                         }
                         break;
@@ -159,6 +176,12 @@ public class ApsAutomatos2 {
         catch(FileNotFoundException a){
             System.out.println("O arquivo não foi encontrado!");
             System.exit(1);
+        }
+        
+        //verifica se os alfabetos não contem o simbolo que representa epsilon
+        if(alfabetoEntrada.contains(epsilon) | alfabetoPilha.contains(epsilon)){
+            System.err.println("O alfabeto de entrada ou o alfabeto de pilha contém o simbolo que representa epsilon ");
+            System.exit(0);
         }
                 
         Automato a = new Automato(palavra, estInicial, new StringBuilder(simboloInicialPilha));
